@@ -1,0 +1,48 @@
+#!/usr/bin/env perl
+
+use strict;
+use warnings;
+
+use JavaScript::V8;
+
+my $context = JavaScript::V8::Context->new();
+
+$context->bind_function( write => sub { print @_; } );
+$context->bind_function( say => sub {
+    my $say = join '', @_;
+    chomp $say;
+    print $say, "\n";
+} );
+$context->bind_function( _Test_Builder_ok => sub {
+    my ( $test, $name ) = @_;
+    Test::More->builder->ok( $test, $name );
+} );
+
+$context->eval( <<'_END_' );
+write( "Hello, World.\n" );
+_END_
+
+$context->eval( <<'_END_' );
+
+function is( have, want, description ) {
+    
+    _Test_Builder_ok( have == want, description );
+
+}
+
+_END_
+
+use Test::More;
+
+#plan tests => 4;
+plan qw/no_plan/;
+
+ok( 1 );
+ok( 1 );
+
+$context->eval( <<'_END_' );
+
+is( 1, 1, "Durp!" );
+is( 1, 2 );
+
+_END_
