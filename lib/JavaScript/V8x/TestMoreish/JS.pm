@@ -18,7 +18,12 @@ if (! _TestMoreish)
         _TestMoreish_diag( diag );
     }
 
+    function getErrorObject(){
+      try { throw Error('') } catch(err) { return err; }
+    }
+
     _TestMoreish._comparisonFailure = function( have, want, name, _error ) {
+        
         var error = _error + 
             "\nGot: " + have + " (" + (typeof have) + ")"  +
             "\nExpected: " + want + " (" + (typeof want) + ")";
@@ -91,7 +96,6 @@ if (! _TestMoreish)
 
     for (ii = 0; ii < _test.length; ii++) {
         var name = _test[ii];
-//        _TestMoreish['_' + name] = assertionTo_Tester( YAHOO.util.Assert[name] );
         _TestMoreish[name] = _installTest( name );
     }
 

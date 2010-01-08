@@ -15,11 +15,91 @@ Version 0.01
 
 our $VERSION = '0.01';
 
-
 =head1 SYNOPSIS
 
 =cut
 
+use Any::Moose;
+
+use JavaScript::V8x::TestMoreish::JS;
+
+use JavaScript::V8;
+use Path::Abstract;
+use Test::Builder();
+use Sub::Exporter -setup => {
+    exports => [
+        test_js => sub { sub { local $Test::Builder::Level = $Test::Builder::Level + 2; return __test_js( @_ ) } },
+        test_js_tester => sub { sub { return __test_js_tester( @_ ) } },
+        test_js_bind => sub { sub { return __test_js_bind( @_ ) } },
+        test_js_eval => sub { sub { local $Test::Builder::Level = $Test::Builder::Level + 2; return __test_js_eval( @_ ) } },
+    ],
+    groups => {
+        default => [qw/ test_js test_js_tester test_js_bind test_js_eval /],
+    },
+};
+
+my $__tester;
+sub __test_js_tester { return $__tester ||= __PACKAGE__->new }
+sub __test_js { return __test_js_tester->test( @_ ) } 
+sub __test_js_bind { return __test_js_tester->bind( @_ ) }
+sub __test_js_eval { return __test_js_tester->eval( @_ ) }
+
+
+has context => qw/is ro lazy_build 1/;
+sub _build_context {
+    return JavaScript::V8::Context->new();
+}
+
+has builder => qw/is ro lazy_build 1/;
+sub _build_builder {
+    require Test::More;
+    return Test::More->builder;
+}
+
+sub BUILD {
+    my $self = shift;
+
+    $self->bind(
+        _TestMoreish_diag => sub { Test::More->builder->diag( @_ ) },
+        _TestMoreish_ok => sub { Test::More->builder->ok( @_ ) },
+    );
+
+    $self->eval( JavaScript::V8x::TestMoreish::JS->TestMoreish );
+}
+
+sub bind {
+    my $self = shift;
+
+    while( @_ ) {
+        $self->context->bind_function( shift, shift );
+    }
+}
+
+sub eval {
+    my $self = shift;
+
+    # TODO TryCatch?
+    local $@ = undef;
+    $self->context->eval( @_ );
+    die $@ if $@;
+}
+
+sub test {
+    my $self = shift;
+
+    local $Test::Builder::Level = $Test::Builder::Level + 2;
+
+    for ( @_ ) {
+        if (m/\n/) {
+            $self->eval( $_ );
+        }
+        else {
+            my $path = Path::Abstract->new( $_ );
+            my $file = $path->file;
+            $self->eval( scalar $file->slurp );
+        }
+    }
+}
 
 =head1 AUTHOR
 

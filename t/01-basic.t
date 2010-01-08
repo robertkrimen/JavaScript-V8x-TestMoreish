@@ -7,6 +7,17 @@ use Test::Most;
 
 plan qw/no_plan/;
 
+use JavaScript::V8x::TestMoreish;
+
+test_js( <<'_END_' );
+
+_TestMoreish.areEqual( 1, 1 );
+_TestMoreish.areEqual( 1, 2 );
+
+_END_
+
+__END__
+
 use JavaScript::V8;
 use JavaScript::V8x::TestMoreish::JS;
 
@@ -73,4 +84,6 @@ _js_eval( <<'_END_' );
 
 is( 1, 1 );
 is( 1, 2 );
+
+is( 1, new Error().toString() );
 _END_
