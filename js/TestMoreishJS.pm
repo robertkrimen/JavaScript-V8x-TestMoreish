@@ -9,10 +9,4 @@ sub TestMoreish {
 _END_
 }
 
-sub yui {
-    <<'_END_'
-[% PROCESS js/yui.js %]
-_END_
-}
-
 1;
