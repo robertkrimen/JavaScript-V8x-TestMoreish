@@ -2,7 +2,3 @@ Changes
 MANIFEST
 Makefile.PL
 README
-lib/JavaScript/V8x/Test.pm
-t/00-load.t
-t/pod-coverage.t
-t/pod.t

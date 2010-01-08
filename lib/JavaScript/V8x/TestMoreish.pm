@@ -1,11 +1,11 @@
-package JavaScript::V8x::Test;
+package JavaScript::V8x::TestMoreish;
 
 use warnings;
 use strict;
 
 =head1 NAME
 
-JavaScript::V8x::Test - Allow javascript testing in Test::More tests using v8
+JavaScript::V8x::TestMoreish - Allow javascript testing in Test::More tests using v8
 
 =head1 VERSION
 
@@ -28,7 +28,7 @@ Robert Krimen, C<< <rkrimen at cpan.org> >>
 =head1 BUGS
 
 Please report any bugs or feature requests to C<bug-javascript-v8x-test at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=JavaScript-V8x-Test>.  I will be notified, and then you'll
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=JavaScript-V8x-TestMoreish>.  I will be notified, and then you'll
 automatically be notified of progress on your bug as I make changes.
 
 
@@ -38,7 +38,7 @@ automatically be notified of progress on your bug as I make changes.
 
 You can find documentation for this module with the perldoc command.
 
-    perldoc JavaScript::V8x::Test
+    perldoc JavaScript::V8x::TestMoreish
 
 
 You can also look for information at:
@@ -47,19 +47,19 @@ You can also look for information at:
 
 =item * RT: CPAN's request tracker
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=JavaScript-V8x-Test>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=JavaScript-V8x-TestMoreish>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/JavaScript-V8x-Test>
+L<http://annocpan.org/dist/JavaScript-V8x-TestMoreish>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/JavaScript-V8x-Test>
+L<http://cpanratings.perl.org/d/JavaScript-V8x-TestMoreish>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/JavaScript-V8x-Test/>
+L<http://search.cpan.org/dist/JavaScript-V8x-TestMoreish/>
 
 =back
 
@@ -80,4 +80,4 @@ See http://dev.perl.org/licenses/ for more information.
 
 =cut
 
-1; # End of JavaScript::V8x::Test
+1; # End of JavaScript::V8x::TestMoreish
