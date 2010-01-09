@@ -3,87 +3,25 @@
 use strict;
 use warnings;
 
+use Test::Tester;
 use Test::Most;
+#use Data::Dumper;
 
 plan qw/no_plan/;
 
 use JavaScript::V8x::TestMoreish;
 
-test_js( <<'_END_' );
+my ($premature, @results);
 
-_TestMoreish.areEqual( 1, 1 );
-_TestMoreish.areEqual( 1, 2 );
-
+($premature, @results) = run_tests sub { test_js( <<'_END_' ) };
+diag( "Hello, World." );
+areEqual( 1, 1 );
+areEqual( 1, 2 );
 _END_
 
-__END__
+is( scalar @results, 2 );
+ok( $results[0]->{ok} );
+ok( ! $results[1]->{ok} );
+like( $results[1]->{diag}, qr/Values should be equal/ );
 
-use JavaScript::V8;
-use JavaScript::V8x::TestMoreish::JS;
-
-my $context = JavaScript::V8::Context->new();
-
-sub _js_eval {
-    local $@ = undef;
-    $context->eval( @_ );
-    die $@ if $@;
-}
-
-$context->bind_function( say => sub {
-    my $say = join '', @_;
-    chomp $say;
-    print $say, "\n";
-} );
-
-$context->bind_function( _TestMoreish_diag => sub {
-    Test::More->builder->diag( @_ );
-} );
-
-$context->bind_function( _TestMoreish_ok => sub {
-    my ( $test, $name ) = @_;
-    Test::More->builder->ok( $test, $name );
-} );
-
-#_js_eval( <<'_END_' );
-#if (! navigator)
-#    var navigator = {};
-
-#if (! window)
-#    var window = {};
-
-#if (! window.document)
-#    var document = window.document = {};
-
-#if (! window.document.documentElement)
-#    window.document.documentElement = {};
-
-#if (! window.document.createElement)
-#    window.document.createElement = function(){};
-
-#1;
-#_END_
-
-#_js_eval( JavaScript::V8x::TestMoreish::JS->yui );
-_js_eval( JavaScript::V8x::TestMoreish::JS->TestMoreish );
-
-_js_eval( <<'_END_' );
-
-function is( have, want, description ) {
-    
-    _TestMoreish.areEqual( have, want );
-
-}
-
-_END_
-
-_js_eval( <<'_END_' );
-
-//say( _TestMoreish.areSame );
-
-//diag( "Yoink!" );
-
-is( 1, 1 );
-is( 1, 2 );
-
-is( 1, new Error().toString() );
-_END_
+#warn Dumper \@results;

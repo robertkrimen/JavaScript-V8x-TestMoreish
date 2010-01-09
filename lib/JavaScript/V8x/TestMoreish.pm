@@ -65,6 +65,14 @@ sub BUILD {
     );
 
     $self->eval( JavaScript::V8x::TestMoreish::JS->TestMoreish );
+    $self->eval( <<'_END_' );
+if (! TestMoreish)
+    var TestMoreish = _TestMoreish;
+_END_
+    $self->eval( join "\n", map { "function $_() { TestMoreish.$_.apply( TestMoreish, arguments ) }" } split m/\n+/, <<_END_ );
+diag
+areEqual
+_END_
 }
 
 sub bind {

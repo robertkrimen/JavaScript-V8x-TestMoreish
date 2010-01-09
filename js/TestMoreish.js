@@ -52,39 +52,40 @@ if (! _TestMoreish)
 		return function() {
             var tester = this['_' + test];
             var result = tester.apply( this, arguments );
-            var hasError = result.error ? 1 : 0;
-            this._ok( hasError, result.name );
-            if ( hasError ) {
+            this._ok( result.error ? 0 : 1, result.name );
+            if ( result.error ) {
                 this._diag( result.error );
             }
-            return hasError;
+            return result.error ? 0 : 1;
         };
     }
 
+    // Public API
+
+    _TestMoreish.diag = function() { this._diag.apply( this, arguments ) };
+
     var _test = [
         'areEqual',
-/*
-        'areNotEqual',
-        'areSame',
-        'areNotSame',
-        'fail',
-        'isTypeOf',
-        'isArray',
-        'isBoolean',
-        'isFunction',
-        'isNumber',
-        'isObject',
-        'isString',
-        'isInstanceOf',
-        'isTrue',
-        'isFalse',
-        'isNaN',
-        'isNotNaN',
-        'isNull',
-        'isNotNull',
-        'isUndefined',
-        'isNotUndefined'
-*/
+//        'areNotEqual',
+//        'areSame',
+//        'areNotSame',
+//        'fail',
+//        'isTypeOf',
+//        'isArray',
+//        'isBoolean',
+//        'isFunction',
+//        'isNumber',
+//        'isObject',
+//        'isString',
+//        'isInstanceOf',
+//        'isTrue',
+//        'isFalse',
+//        'isNaN',
+//        'isNotNaN',
+//        'isNull',
+//        'isNotNull',
+//        'isUndefined',
+//        'isNotUndefined'
     ];
 
     for (ii = 0; ii < _test.length; ii++) {
