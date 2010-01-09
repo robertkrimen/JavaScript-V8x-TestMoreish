@@ -5,17 +5,49 @@ use strict;
 
 =head1 NAME
 
-JavaScript::V8x::TestMoreish - Allow javascript testing in Test::More tests using v8
+JavaScript::V8x::TestMoreish - Run and test JavaScript code in Perl using Test::More and v8
 
 =head1 VERSION
 
-Version 0.01
+Version 0.010
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.010';
 
 =head1 SYNOPSIS
+
+    use Test::More
+
+    plan qw/no_plan/
+
+    is( 1, 1 )
+
+    use JavaScript::V8x::TestMoreish
+
+    test_js( <<'_END_' )
+    diag( "Hello, World." );
+    areEqual( 1, 1 );
+    areEqual( 1, 2 );
+    _END_
+
+=head1 DESCRIPTION
+
+JavaScript::V8x::TestMoreish uses the Google V8 JavaScript engine (via L<JavaScript::V8>) to execute JavaScript code on demand in Perl. In addition, the customized context binds some functions that expose parts of Test::More to facillate testing.
+
+Except for requiring a C<libv8> installation, this package provides seamless functionality. You can interleave regular Test::More tests and JavaScript tests as usual.
+
+=head1 JavaScript USAGE
+
+=head2 diag( $message )
+
+=head2 areEqual( $got, $expected, $name )
+
+=head1 USAGE
+
+=head2 test_js( $js )
+
+Evaluate $js in a Test::More-ish context (see JavaScript USAGE for available functionality)
 
 =cut
 
@@ -108,6 +140,10 @@ sub test {
         }
     }
 }
+
+=head1 SEE ALSO
+
+L<JavaScript::V8>
 
 =head1 AUTHOR
 
