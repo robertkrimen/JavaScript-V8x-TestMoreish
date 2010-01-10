@@ -439,6 +439,7 @@ YAHOO.env.ua = function() {
     return o;
 }();
 
+            return true;
 /*
  * Initializes the global by creating the default namespaces and applying
  * any new configuration information that is detected.  This is the setup

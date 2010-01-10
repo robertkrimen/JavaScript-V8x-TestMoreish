@@ -3,6 +3,7 @@
 all: js test
 
 lib/JavaScript/V8x/TestMoreish/JS.pm: js/TestMoreishJS.pm js/*.js
+	js -s js/TestMoreish.js
 	tpage $< > $@
 
 js: lib/JavaScript/V8x/TestMoreish/JS.pm
@@ -19,6 +20,7 @@ install distclean tardist: Makefile
 	$(MAKE) -f $< $@
 
 test: Makefile
+	-js -s js/TestMoreish.js
 	TEST_RELEASE=1 $(MAKE) -f $< $@
 
 Makefile: Makefile.PL
