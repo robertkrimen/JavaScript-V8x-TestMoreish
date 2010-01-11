@@ -81,6 +81,7 @@ use Sub::Exporter -setup => {
         default => [qw/ test_js test_js_tester test_js_bind test_js_eval /],
     },
 };
+use Test::More();
 
 my $__tester;
 sub __test_js_tester { return $__tester ||= __PACKAGE__->new }
@@ -96,7 +97,6 @@ sub _build_context {
 
 has builder => qw/is ro lazy_build 1/;
 sub _build_builder {
-    require Test::More;
     return Test::More->builder;
 }
 
