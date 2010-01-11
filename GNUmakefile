@@ -2,7 +2,7 @@
 
 all: js test
 
-lib/JavaScript/V8x/TestMoreish/JS.pm: js/TestMoreishJS.pm js/*.js
+lib/JavaScript/V8x/TestMoreish/JS.pm: js/JS.pm js/*.js
 	js -s js/TestMoreish.js
 	tpage $< > $@
 
